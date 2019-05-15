@@ -1,0 +1,16 @@
+{
+    "ecmaVersion": 6,
+    "libs": [
+        "browser",
+        "react",
+        "prop-types",
+        "react-dom",
+        "../heatmap-gl"
+    ],
+    "plugins": {
+        "node": {},
+        "jsx": {},
+        "es_modules": {},
+        "doc_comment": {}
+    }
+}
