@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import React, { Component } from 'react';
 import { jsx, css, } from '@emotion/core';
-import {PreDiv} from './Styled';
+import { PreDiv } from './Styled';
 import PropTypes from 'prop-types'
 import HighlightableLine from './HighlightableLine';
 
@@ -29,7 +29,7 @@ const calculateLineLengths = (lines) => {
  * TODO :Add mouse highlight suppoert
  */
 class HighlightableText extends Component {
-    
+
 
     constructor(props) {
         super(props);
@@ -42,7 +42,7 @@ class HighlightableText extends Component {
 
         this.state = {
             dragged: false,
-            highlightSet: new Set(),
+            dragStart: null,
         }
     }
 
@@ -51,19 +51,19 @@ class HighlightableText extends Component {
 
 
     handleMouseDown(e) {
-        this.setState({ dragged: true })
+        this.setState({ dragged: true, dragStart: +e.target.id })
     }
 
     handleMouseUp(e) {
-        if (this.state.dragged && this.props.onHighlight){
-            this.props.onHighlight(this.highlightSet)
+        if (this.state.dragged && this.props.onHighlight) {
+            this.props.onHighlight(this.state.dragStart, +e.target.id);
         }
-        this.setState({dragged: false});
+        this.setState({ dragged: false, dragStart: null });
     }
 
     handleMouseLeave(e) {
-        if(this.state.dragged){
-            this.setState({ dragged: false })
+        if (this.state.dragged) {
+            this.setState({ dragged: false, dragStart: null })
         }
     }
 
@@ -74,11 +74,11 @@ class HighlightableText extends Component {
             .split('\n').map((line, i) => {
                 return (
                     <HighlightableLine
-                      highlighted={ this.props.highlightedLines ? 
-                                      this.props.highlightedLines.hasOwnProperty(i) ?
-                                      this.props.highlightedLines[i]: false
-                                    : false
-                      }
+                        highlighted={this.props.highlightedLines ?
+                            this.props.highlightedLines.hasOwnProperty(i) ?
+                                this.props.highlightedLines[i] : false
+                            : false
+                        }
                         highlightedCharacters={this.props.highlightedCharacters}
                         lineNumber={i}
                         key={i}
@@ -87,8 +87,9 @@ class HighlightableText extends Component {
                         // char indices while highlighting
                         onMouseDown={this.handleMouseDown}
                         onMouseUp={this.handleMouseUp}
+                        tabspace={this.props.tabspace}
                     />)
-                }
+            }
             );
         return (
             <PreDiv ref={this.preNode} onMouseLeave={this.handleMouseLeave}>
@@ -103,10 +104,15 @@ class HighlightableText extends Component {
 HighlightableText.propTypes = {
     /** the text be be displayed */
     text: PropTypes.string.isRequired,
-    /** */ 
-    highlightedLines: PropTypes.object,
+    /** */
+    highlightedLines: PropTypes.oneOfType(
+        [PropTypes.object,
+        PropTypes.bool]
+    ),
     /** character indices that are to be highlighted */
     highlightedCharacters: PropTypes.object,
+    /** tabspace to be used */
+    tabspace: PropTypes.number,
 };
 
 export default HighlightableText;

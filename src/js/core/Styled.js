@@ -3,7 +3,10 @@ import styled  from '@emotion/styled';
 import { jsx} from '@emotion/core';
 
 const CharSpan = styled.span `
-    background-color: ${props => props.backgroundColor}
+    height: 100%;
+    transition: all .1s ease-in;
+    background-color: ${props => props.backgroundColor};
+    
 `;
 const LineSpan = styled.span`
     display: table-row;
@@ -21,6 +24,9 @@ const LineSpan = styled.span`
 const TextSpan = styled.span`
     overflow: hidden;
     display: table-cell;
+    vertical-align: middle;
+    padding: 0;
+    margin: 0;
     background-color: ${props => `${props.highlightColor || 'white'}`}
 `;
 

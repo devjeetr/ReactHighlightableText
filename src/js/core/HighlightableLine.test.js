@@ -10,7 +10,7 @@ Enzyme.configure({ adapter: new Adapter() });
 
 
 
-describe('char indices are mapped accurately to TextSpan', () => {
+describe('HighlightableLine Basic Tests', () => {
     test('it should assign single line char indices correctly without offset', () => {
         const text = `I'm a single line\n`;
         const component = mount(<HighlightableLine text={text} />);
@@ -84,6 +84,36 @@ describe('char indices are mapped accurately to TextSpan', () => {
                 }
             });
     });
+
+    test('it should properly update tabspaces', () => {
+        const text = `\tI'm a single line`;
+        const component = mount(<HighlightableLine text={text} tabspace={4}/>);
+
+        expect(component.find(CharSpan)).toHaveLength(text.length);
+        component.find(CharSpan)
+            .map((charspan, i) => {
+                expect(+charspan.getDOMNode().id).toBe(i);
+                if (text[i] === '\t'){
+                    expect(charspan.text()).toBe('    ');
+                } else {
+                   expect(charspan.text()).toBe(text[i]);
+                }
+            });
+        // update
+        component.setProps({text, tabspace: 10});
+        component.find(CharSpan)
+            .map((charspan, i) => {
+                expect(+charspan.getDOMNode().id).toBe(i);
+                if (text[i] === '\t'){
+                    expect(charspan.text()).toBe(' '.repeat(10));
+                } else {
+                   expect(charspan.text()).toBe(text[i]);
+                }
+            });
+
+    });
+
+    
 })
 
 
