@@ -2,7 +2,7 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   devtool: 'source-map',
-  entry: ['./src/js/index.js'],
+  entry: ['./src/js/demo/index.js'],
   output: {
       publicPath: "/"
   },
