@@ -1,8 +1,11 @@
 {
     "compilerOptions": {
-        "target": "es6"
+        "target": "es6",
+        "module": "commonjs",
+        "allowSyntheticDefaultImports": true,
+        "baseUrl": "./src"
     },
     "include": [
-        "../heatmap-js/dist/*"
     ]
 }
+

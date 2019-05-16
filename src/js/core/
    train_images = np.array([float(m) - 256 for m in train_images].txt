@@ -1,2 +1,0 @@
-
-    train_images = np.array([float(m) / 256 for m in train_images])
